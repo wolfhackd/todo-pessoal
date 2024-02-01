@@ -59,12 +59,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /* evento de edição de tarefa */
+    taskBox.addEventListener('click', (e) => {
+        if (e.target.classList.contains('edit-btn')){
+            const task = e.target.closest('.task');
+            const taskName = task.querySelector('h4').textContent;
+            const taskNameTwoInput = document.querySelector('#task-name-two');
+            const editTaskButton = document.querySelector('#edit');
 
+            taskNameTwoInput.value = taskName;
 
+            /* exibe campo de edição */
+            document.getElementById('task-edit').style.display = 'flex';
+            
+            //Quando o botão "Concluir" é clicado
+            editTaskButton.addEventListener('click', () =>{
+                const editedTaskName = taskNameTwoInput.value.trim();
+                if(editedTaskName !== '') {
+                    task.querySelector('h4').textContent = editedTaskName;
+                    taskNameTwoInput.value = '';
+                    document.getElementById('task-edit').style.display = 'none';
+                }else{
+                    alert('Por favor, insira o nome da tarefa.');
+                }
+            });
 
+            /*  Quando o botão "cancelar" é clicado */
+            const cancelButton = document.getElementById('cancel');
+            cancelButton.addEventListener('click', () =>{
+                taskNameTwoInput.value = '';
+                document.getElementById('task-edit').style.display = 'none';
+            });
+        }
+    });
 
-
-})
+    //Evento para marcar uma tarefa como concluída
+    taskBox.addEventListener('click', (e) => {
+        if(e.target.classList.contains('complete-btn')){
+            const task = e.target.closest('.task')
+            task.classList.toggle('complete');
+        }
+    });
+});
 
 
 
